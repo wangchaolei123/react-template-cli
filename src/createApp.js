@@ -1,9 +1,3 @@
-// import inquirer from 'inquirer';
-// import ora from "ora";
-// import download from "download-git-repo";
-// import fs from 'fs-extra'
-// import path from "path";
-
 const fs = require('fs-extra');
 const ora = require('ora');
 const inquirer = require('inquirer');
