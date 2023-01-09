@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>博彦科技</title>
+</head>
+<body>
+<!-- 容器节点 -->
+<div id="root"></div>
+<script>
+  const obj = new Proxy(
+    {value: 0},
+    {
+      get(target, p, receiver) {
+        if (p === Symbol.toPrimitive) {
+          return () => {
+            return target.value;
+          };
+        }
+        target.value += +p;
+        console.log(p, receiver, target);
+        return receiver;
+      },
+    },
+  );
+  Object.assign({}, {}, {})
+
+  function assign(target, ...source) {
+    if (target === undefined || target === null) return;
+    let res = target;
+    source.forEach(s => {
+      if (s !== null && s !== undefined) {
+        for (const key in s) {
+          if (Object.prototype.hasOwnProperty.call(s, key)) {
+            res[key] = source[key]
+          }
+        }
+      }
+    })
+    return res;
+  }
+</script>
+</body>
+</html>
