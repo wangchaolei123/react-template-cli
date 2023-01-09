@@ -3,16 +3,14 @@ import { Provider } from 'react-redux';
 import store from '@/store';
 import { BrowserRouter } from 'react-router-dom';
 import { AppRoutes } from '@/router';
-import Footer from '@/components/footer';
-import { SpinLoading } from 'antd-mobile';
+import { Spin } from 'antd'
 
 function App() {
   return (
     <BrowserRouter>
-      <Suspense fallback={<SpinLoading />}>
+      <Suspense fallback={<Spin />}>
         <AppRoutes />
       </Suspense>
-      <Footer />
     </BrowserRouter>
   );
 }

@@ -9,13 +9,40 @@ const ora = require('ora');
 const inquirer = require('inquirer');
 const download = require('download-git-repo');
 const path = require('path');
-
+const exec = require('child_process').exec;
 
 const getFileName = (answer) => {
   if (answer.i18nType === '1') {
     return `${answer.buildType}-i18n-react-template`
   }
   return `${answer.buildType}-react-template`
+}
+
+const installModule = (root) => {
+  return new Promise((resolve, reject) => {
+    const workerProcess = exec(
+      'yarn',
+      {
+        cwd: root,
+      },
+      (err) => {
+        if (err) {
+          console.log(err);
+          reject(err);
+        } else {
+          resolve(null);
+        }
+      }
+    );
+
+    workerProcess.stdout.on('data', function (data) {
+      console.log(data);
+    });
+
+    workerProcess.stderr.on('data', function (data) {
+      console.log(data);
+    });
+  })
 }
 
 const createApp = async (projectName, description) => {
@@ -44,7 +71,7 @@ const createApp = async (projectName, description) => {
       message: "本地模板还是拉取远端模板",
       choices: [
         {name: "本地", value: 'local'},
-        {name: "远端", value: 'remote'}
+        {name: "远端", value: 'local'}
       ]
     }
   ];
@@ -63,12 +90,13 @@ const createApp = async (projectName, description) => {
 
   const spinner = ora({
     spinner: 'soccerHeader',
-    prefixText: `loading  template`,
+    prefixText: `loading ${projectName}`,
   });
   spinner.start('正在下载模板...');
   if (answer?.template === 'remote') {
+
     download(
-      '',
+      `https://github.com/wangchaolei123/react-template-cli.git/template/${fileName}`,
       `${process.cwd()}/${projectName}`,
       function (err) {
         if (!err) {
@@ -82,6 +110,8 @@ const createApp = async (projectName, description) => {
           spinner.succeed('下载成功,😁');
 
         } else {
+          console.log(err)
+          fs.removeSync(root)
           return spinner.fail(
             '下载失败😭,确保你的网络连接正常,能访问github.com'
           );
@@ -102,8 +132,11 @@ const createApp = async (projectName, description) => {
         json,
         {spaces: 2}
       )
+      await installModule(root)
       spinner.succeed('模板生成成功,😁');
+
     } catch (err) {
+      fs.removeSync(root)
       spinner.fail('生成失败😭' + err)
     }
   }

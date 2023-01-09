@@ -12,5 +12,5 @@
 
 - 创建项目
 ```bash
-beyondsoft creat  yourProjectName description
+beyondsoft creat  <yourProjectName> [description]
 ```

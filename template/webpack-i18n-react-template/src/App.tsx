@@ -3,12 +3,10 @@ import { Provider } from 'react-redux';
 import store from '@/store';
 import { BrowserRouter } from 'react-router-dom';
 import { AppRoutes } from '@/router';
-import Footer from '@/components/footer';
 import zhCN from 'antd/lib/locale/zh_CN';
-import { SpinLoading } from 'antd-mobile';
 import i18n from '@/i18n';
 import { IntlProvider, useIntl } from 'react-intl';
-import { ConfigProvider } from 'antd';
+import {ConfigProvider, Spin} from 'antd';
 import { Locale } from 'antd/es/locale';
 
 type TranslationsType = 'zh-CN' | 'en';
@@ -36,10 +34,9 @@ function App() {
   const { formatMessage, messages } = useIntl();
   return (
     <BrowserRouter>
-      <Suspense fallback={<SpinLoading />}>
+      <Suspense fallback={<Spin />}>
         <AppRoutes />
       </Suspense>
-      <Footer />
     </BrowserRouter>
   );
 }

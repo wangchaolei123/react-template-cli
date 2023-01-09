@@ -63,14 +63,6 @@ module.exports = {
         ]
       },
       {
-        test: /\.css$/,
-        exclude:[/src/],
-        use: [
-          'style-loader',
-          'css-loader'
-        ]
-      },
-      {
         test: /\.(ts|tsx)$/,
         enforce: 'pre',
         use: ['thread-loader', {
