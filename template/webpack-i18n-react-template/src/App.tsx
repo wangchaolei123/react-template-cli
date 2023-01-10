@@ -6,7 +6,7 @@ import { AppRoutes } from '@/router';
 import zhCN from 'antd/lib/locale/zh_CN';
 import i18n from '@/i18n';
 import { IntlProvider, useIntl } from 'react-intl';
-import {ConfigProvider, Spin} from 'antd';
+import { ConfigProvider, Spin } from 'antd';
 import { Locale } from 'antd/es/locale';
 
 type TranslationsType = 'zh-CN' | 'en';
@@ -15,8 +15,8 @@ const SUPPPORTED_LOCALES = new Set(['zh-CN', 'zh']);
 
 const getAntdLocale = (locale: TranslationsType) => {
   switch (locale) {
-  default:
-    return zhCN;
+    default:
+      return zhCN;
   }
 };
 
