@@ -8,7 +8,10 @@
     "dev:prod": "cross-env NODE_ENV=development BASE_ENV=production webpack-dev-server -c build/webpack.dev.js",
     "build:test": "cross-env NODE_ENV=production BASE_ENV=test webpack -c build/webpack.prod.js",
     "build:prod": "cross-env NODE_ENV=production BASE_ENV=production webpack -c build/webpack.prod.js",
-    "analy": "cross-env NODE_ENV=production BASE_ENV=production webpack -c build/webpack.analy.js"
+    "analy": "cross-env NODE_ENV=production BASE_ENV=production webpack -c build/webpack.analy.js",
+    "lint:eslint": "eslint --fix --ext .js,.ts,.tsx ./src",
+    "prettier:style": "stylelint --cache --fix \"**/*.{less,postcss,css}\" --cache --cache-location node_modules/.cache/stylelint/",
+    "prettier": "prettier --write --loglevel warn \"src/**/*.{js,ts,json,tsx,css,less,html,md}\""
   },
   "keywords": [],
   "devDependencies": {

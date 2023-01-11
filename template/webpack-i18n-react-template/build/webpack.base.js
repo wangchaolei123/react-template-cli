@@ -63,6 +63,17 @@ module.exports = {
           },
         ],
       },
+      // 加入antd-mobile，样式失效时
+      // {
+      //   test: /\.css$/,
+      //   use:[
+      //     {loader:'style-loader'},
+      //     {
+      //       loader:'css-loader'
+      //     }
+      //   ]
+      // },
+
       {
         test: /\.(ts|tsx|js|jsx)$/,
         enforce: 'pre',

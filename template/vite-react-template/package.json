@@ -8,6 +8,9 @@
     "build:dev": "tsc && vite build --mode development",
     "build:test": "tsc && vite build --mode test",
     "build:pro": "tsc && vite build --mode production",
+    "lint:eslint": "eslint --fix --ext .js,.ts,.tsx ./src",
+    "prettier:style": "stylelint --cache --fix \"**/*.{less,postcss,css}\" --cache --cache-location node_modules/.cache/stylelint/",
+    "prettier": "prettier --write --loglevel warn \"src/**/*.{js,ts,json,tsx,css,less,html,md}\"",
     "preview": "vite preview"
   },
   "dependencies": {
