@@ -142,7 +142,7 @@ module.exports = {
     }),
     new StyleLintPlugin({
       fix: true,
-      'files': ['**/*.{css,less}'],
+      files: ['**/*.{css,less}'],
     }),
   ],
   // 开启webpack持久化存储缓存

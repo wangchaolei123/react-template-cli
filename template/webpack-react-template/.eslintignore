@@ -1,4 +1,4 @@
 /build
 postcss.config.js
-.eslintrc.js
+.eslintrc.cjs
 babel.config.js

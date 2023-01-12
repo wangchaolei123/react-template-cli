@@ -7,10 +7,10 @@ const exec = require('child_process').exec;
 
 const getFileName = (answer) => {
   if (answer.i18nType === '1') {
-    return `${answer.buildType}-i18n-react-template`
+    return `${answer.buildType}-i18n-react-template`;
   }
-  return `${answer.buildType}-react-template`
-}
+  return `${answer.buildType}-react-template`;
+};
 
 const installModule = (root) => {
   return new Promise((resolve, reject) => {
@@ -26,7 +26,7 @@ const installModule = (root) => {
         } else {
           resolve(null);
         }
-      }
+      },
     );
 
     workerProcess.stdout.on('data', function (data) {
@@ -36,51 +36,51 @@ const installModule = (root) => {
     workerProcess.stderr.on('data', function (data) {
       console.log(data);
     });
-  })
-}
+  });
+};
 
 const createApp = async (projectName, description) => {
   const question = [
     {
-      type: "list",
+      type: 'list',
       name: 'buildType',
-      message: "构建工具",
+      message: '构建工具',
       choices: [
-        {name: "webpack", value: 'webpack'},
-        {name: "vite", value: 'vite'}
-      ]
+        { name: 'webpack', value: 'webpack' },
+        { name: 'vite', value: 'vite' },
+      ],
     },
     {
-      type: "list",
+      type: 'list',
       name: 'i18nType',
-      message: "是否支持国际化",
+      message: '是否支持国际化',
       choices: [
-        {name: "支持", value: '1'},
-        {name: "不支持", value: '0'}
-      ]
+        { name: '支持', value: '1' },
+        { name: '不支持', value: '0' },
+      ],
     },
     {
-      type: "list",
+      type: 'list',
       name: 'template',
-      message: "本地模板还是拉取远端模板",
+      message: '本地模板还是拉取远端模板',
       choices: [
-        {name: "本地", value: 'local'},
-        {name: "远端", value: 'local'}
-      ]
-    }
+        { name: '本地', value: 'local' },
+        { name: '远端', value: 'remote' },
+      ],
+    },
   ];
 
   const answer = await inquirer.prompt(question);
-  const fileName = getFileName(answer)
+  const fileName = getFileName(answer);
 
-  const root = path.resolve(projectName)
-  fs.ensureDirSync(projectName)
+  const root = path.resolve(projectName);
+  fs.ensureDirSync(projectName);
 
   const packJson = {
     name: projectName,
     version: '1.0.0',
-    description
-  }
+    description,
+  };
 
   const spinner = ora({
     spinner: 'soccerHeader',
@@ -88,37 +88,35 @@ const createApp = async (projectName, description) => {
   });
   spinner.start('正在下载模板...');
   if (answer?.template === 'remote') {
-
     download(
-      `https://github.com/wangchaolei123/react-template-cli.git/template/${fileName}`,
+      `https://github.com/wangchaolei123/react-template-cli.git#${fileName}`,
       `${process.cwd()}/${projectName}`,
       function (err) {
         if (!err) {
-          let json = fs.readJsonSync(`${root}/package.json`)
-          json = {...json, ...packJson}
-          fs.writeJsonSync(
-            path.join(root, 'package.json'),
-            json,
-            {spaces: 2}
-          )
+          let json = fs.readJsonSync(`${root}/package.json`);
+          json = { ...json, ...packJson };
+          fs.writeJsonSync(path.join(root, 'package.json'), json, { spaces: 2 });
           spinner.succeed('下载成功,😁');
-
         } else {
-          console.log(err)
-          fs.removeSync(root)
-          return spinner.fail(
-            '下载失败😭,确保你的网络连接正常,能访问github.com'
-          );
+          console.log(err);
+          fs.removeSync(root);
+          return spinner.fail('下载失败😭,确保你的网络连接正常,能访问github.com');
         }
-      }
-    )
+      },
+    );
   }
 
   if (answer?.template === 'local') {
-    const templatePath = path.resolve(__dirname, `../template/${fileName}`)
+    const templatePath = path.resolve(__dirname, `../template/${fileName}`);
 
     try {
-      await fs.copy(templatePath, root)
+      await fs.copySync(templatePath, root, {
+        filter: (path, ...args) => {
+          // 返回true复制项目，排除node_modules
+          return path.indexOf('node_modules') < 0;
+        },
+      });
+      const jsonPath = path.resolve(__dirname, `${root}/package.json`);
       let json = fs.readJsonSync(`${root}/package.json`)
       json = {...json, ...packJson}
       fs.writeJsonSync(
@@ -128,12 +126,11 @@ const createApp = async (projectName, description) => {
       )
       await installModule(root)
       spinner.succeed('模板生成成功,😁');
-
     } catch (err) {
-      fs.removeSync(root)
-      spinner.fail('生成失败😭' + err)
+      fs.removeSync(root);
+      spinner.fail('生成失败😭' + err);
     }
   }
 };
 
-module.exports = {createApp}
+module.exports = { createApp };

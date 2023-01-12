@@ -1,0 +1,29 @@
+.container {
+	display: flex;
+	min-width: 950px;
+	height: 100vh;
+
+  :global {
+    .ant-layout-sider {
+      box-sizing: border-box;
+      background: #6f8eec;
+    }
+
+    .ant-layout {
+      overflow-x: hidden;
+
+      .ant-layout-content {
+        box-sizing: border-box;
+        flex: 1;
+        padding: 10px 12px;
+        overflow-x: hidden;
+        background: #fff;
+      }
+    }
+
+    .ant-layout-header {
+      background: #f4f4f4 !important;
+    }
+  }
+
+}

@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import store from '@/store';
 import { BrowserRouter } from 'react-router-dom';
 import { AppRoutes } from '@/router';
-import { Spin } from 'antd'
+import { Spin } from 'antd';
 
 function App() {
   return (

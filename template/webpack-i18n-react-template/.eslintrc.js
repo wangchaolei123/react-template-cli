@@ -16,11 +16,11 @@ module.exports = {
   },
   plugins: ['react', '@typescript-eslint', 'prettier'],
   rules: {
-    indent: ['error', 2],
+    indent: ['error', 2, { SwitchCase: 1 }],
     quotes: ['error', 'single'],
     semi: ['error', 'always'],
-    'no-console': ['error', {allow: ['warn', 'error']}],
+    'no-console': ['error', { allow: ['warn', 'error'] }],
     'no-duplicate-imports': 'error',
-    'no-var':'error'
+    'no-var': 'error',
   },
 };
